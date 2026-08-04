@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Randy Sykes - DevOps Resume</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <!-- <h2 class="sr-only">Randy Sykes - DevOps & Cloud Resume</h2> -->
+
+    <nav>
+        <div class="nav-logo">randy@randy-sykes.me:~$</div>
+        <div class="nav-links">
+            <a href="#experience">experience</a>
+            <a href="#skills">skills</a>
+            <a href="#challenge">challenge</a>
+            <a href="#certs">certs</a>
+        </div>
+    </nav>
+
+    <div class="hero">
+        <div class="terminal-bar">
+            <div class="t-dot r"></div><div class="t-dot y"></div><div class="t-dot g"></div>
+            <span class="t-cmd">~ <span>ssh</span> randy@randy-sykes.me</span>
+        </div>
+        <div class="typewriter-line">
+            <span id="typewriter"></span><span class="cursor"></span>
+        </div>
+        <p class="hero-sub">
+            <strong>14+ years</strong> in infrastructure operations and automation engineering. Building toward <strong>cloud-native DevOps</strong> 
+            - automating what shouldn't be manual, instrumenting what shouldn't be invisible.
+        </p>
+	<div class="badge-row">
+	    <span class="badge cyan">Python</span>
+	    <span class="badge cyan">AWS</span>
+	    <span class="badge cyan">Infrastructure Automation</span>
+	    <span class="badge cyan">CI/CD</span>
+	    <span class="badge green">ITIL 4 Certified</span>
+	    <span class="badge green">AWS CCP</span>
+	    <span class="badge amber">Cloud Resume Challenge</span>
+	</div>
+	<div class="cta-row">
+		<a class="btn btn-primary" href="#experience">Explore my work ↗</a>
+		<a class="btn btn-ghost" href="#">Download CV</a>
+	</div>
+    </div>
+
+    <hr class="divider">
+
+    <section id="experience">
+	
+    </section>
+
+    <hr class="divider">
+
+    <section id="skills">
+    </section>
+
+    <hr class="divider">
+
+    <section id="challenge">
+    </section>
+
+    <hr class="divider">
+
+    <section id="certs">
+    </section>
+
+
+
+    <footer>
+	    Built with HTML <!-- · Hosted on AWS S3 · Deployed via GitHub Actions · -->
+	<a href="https://cloudresumechallenge.dev">Cloud Resume Challenge</a>
+    </footer>
+    <script>
+    const phrases = [
+        "Randy Sykes",
+        "Infrastructure Engineer",
+        "DevOps in progress...",
+        "14 years → Cloud native"
+    ];
+    let pi = 0, ci = 0, deleting = false, pause = 0;
+    const el = document.getElementById('typewriter');
+    function type(){
+    if(pause>0){pause--;setTimeout(type,80);return}
+    const word = phrases[pi];
+    if(!deleting){
+        ci++;
+        el.textContent = word.slice(0,ci);
+        if(ci===word.length){deleting=true;pause=28}
+                setTimeout(type, 80);
+    } else {
+        ci--;
+        el.textContent = word.slice(0,ci);
+        if(ci===0){deleting=false;pi=(pi+1)%phrases.length;pause=6}
+            setTimeout(type, 40);
+        }
+    }
+    type();
+    </script>
+</body>
+</html>
