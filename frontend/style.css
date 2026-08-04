@@ -347,6 +347,50 @@ footer {
     border: 1px solid rgba(0, 194, 224, 0.15);
 }
 
+.skills-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    gap: 1rem;
+}
+
+.skill-card {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 1.25rem;
+}
+
+.skill-card-title {
+    font-family: var(--font-mono);
+    font-size: 11px;
+    color: var(--cyan);
+    margin-bottom: .8rem;
+    text-transform: uppercase;
+    letter-spacing: .08em;
+}
+
+.skill-pills {
+    display: flex;
+    flex-wrap: wrap;
+    gap: .4rem;
+}
+
+.skill-pill {
+    font-size: 12px;
+    padding: .25rem .6rem;
+    border-radius: 4px;
+    background: rgba(255, 255, 255, 0.05);
+    color: var(--white);
+    border: 1px solid var(--border);
+}
+
+#p-crc {
+    font-family: var(--font-mono);
+    font-size: 11px;
+    color: var(--slate);
+    margin-top: 1rem;
+}
+
 footer a {
     color: var(--cyan);
     text-decoration: none;
