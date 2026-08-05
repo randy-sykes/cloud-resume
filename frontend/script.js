@@ -41,10 +41,13 @@ type();
 
 // Visitor Counter
 const formatCount = n => n.toLocaleString('en-US');
+const VISITED_KEY = 'crc_visited';
+const method = localStorage.getItem(VISITED_KEY) ? 'GET' : 'POST';
 
-fetch('', { method: 'POST'})
+fetch('https://dvdbwu26kg.execute-api.us-east-1.amazonaws.com/resume-visitors/count', { method })
     .then(r => r.json())
     .then(data => {
+        localStorage.setItem(VISITED_KEY, 'true');
         document.getElementById('visitorCount').textContent = formatCount(data.count);
         document.getElementById('crcVisitorCount').textContent = formatCount(data.count);
     })
