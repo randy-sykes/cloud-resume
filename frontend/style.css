@@ -391,6 +391,88 @@ footer {
     margin-top: 1rem;
 }
 
+.cert-row {
+    display: flex;
+    flex-wrap: wrap;
+    gap: .8rem;
+    margin-top: .5rem;
+}
+
+.cert {
+    display: flex;
+    align-items: center;
+    gap: .6rem;
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: .7rem 1rem;
+}
+
+.cert-icon {
+    width: 28px;
+    height: 28px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 14px;
+    flex-shrink: 0;
+}
+
+.cert-icon.aws {
+    background: rgba(245, 166, 35, .15);
+    color: var(--amber);
+}
+
+.cert-icon.itil {
+    background: rgba(0, 194, 224, .1);
+    color: var(--cyan);
+}
+
+.cert-icon.pmp {
+    background: rgba(61, 214, 140, .1);
+    color: var(--green);
+}
+
+.cert-text {
+    font-family: var(--font-mono);
+    font-size: 11px;
+    color: var(--white);
+}
+
+.cert-text span {
+    display: block;
+    color: var(--slate);
+    font-size: 10px;
+    margin-top: 1px;
+}
+
+.school-outer {
+    margin-top: 1.5rem;
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 1.25rem
+}
+
+.degree {
+    font-family: var(--font-head);
+    font-weight: 700;
+    margin-bottom: .3rem
+}
+
+.school-name {
+    color: var(--cyan);
+    font-size: .9rem;
+}
+
+.school-graduation {
+    font-family: var(--font-mono);
+    font-size: 11px;
+    color: var(--slate);
+    margin-top: .3rem
+}
+
 footer a {
     color: var(--cyan);
     text-decoration: none;
