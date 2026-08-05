@@ -611,6 +611,13 @@ section {
     margin-top: .6rem;
 }
 
+.crc-live {
+    font-family: var(--font-mono);
+    font-size: .75rem;
+    color: var(--cyan);
+    margin-top: .4rem;
+}
+
 .status-done {
     background: rgba(61, 214, 140, .12);
     color: var(--green);

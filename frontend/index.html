@@ -248,17 +248,18 @@
                 <div class="crc-desc">Point a custom domain at CloudFront.</div>
                 <span class="crc-status status-done">✓ complete</span>
             </div>
-            <div class="crc-step active">
+            <div class="crc-step done">
                 <div class="crc-num">07</div>
                 <div class="crc-name">JavaScript</div>
                 <div class="crc-desc">As part of the page to count the number of visitors.</div>
-                <span class="crc-status status-active">⟳ in progress</span>
+                <div class="crc-live">live: <span id="crcVisitorCount">—</span></div>
+                <span class="crc-status status-done">✓ complete</span>
             </div>
-            <div class="crc-step">
+            <div class="crc-step active">
                 <div class="crc-num">08</div>
                 <div class="crc-name">Database</div>
                 <div class="crc-desc">Setup DynamoDB for keeping track of my visitor counter.</div>
-                <span class="crc-status status-todo">○ todo</span>
+                <span class="crc-status status-active">⟳ in progress</span>
             </div>
             <div class="crc-step">
                 <div class="crc-num">09</div>
@@ -316,7 +317,8 @@
 
     <footer>
 	    Built with HTML · Hosted on AWS S3 · <!-- Deployed via GitHub Actions · -->
-	    <a href="https://cloudresumechallenge.dev/docs/the-challenge/aws/" target="_blank" rel="noopener noreferrer">Cloud Resume Challenge</a>
+	    <a href="https://cloudresumechallenge.dev/docs/the-challenge/aws/" target="_blank" rel="noopener noreferrer">Cloud Resume Challenge</a> · 
+        <span class="visitor-count">visitors: <span id="visitorCount">—</span></span>
     </footer>
     <script src="script.js"></script>
 </body>

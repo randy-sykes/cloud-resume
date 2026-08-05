@@ -40,7 +40,15 @@ function type(){
 type();
 
 // Visitor Counter
+const formatCount = n => n.toLocaleString('en-US');
 
+fetch('', { method: 'POST'})
+    .then(r => r.json())
+    .then(data => {
+        document.getElementById('visitorCount').textContent = formatCount(data.count);
+        document.getElementById('crcVisitorCount').textContent = formatCount(data.count);
+    })
+    .catch(() => {}); // so it leaves the — placeholder if it fails
 
 // Handle collapsing/expanding navigation when on small screens
 const navToggle = document.getElementById('navToggle');
