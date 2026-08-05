@@ -152,6 +152,8 @@ nav {
     color: var(--white);
 }
 
+/* Badges section */
+
 .badge-row {
     display: flex;
     flex-wrap: wrap;
@@ -192,6 +194,8 @@ nav {
     flex-wrap: wrap;
 }
 
+/* Button section */
+
 .btn {
     font-family: var(--font-mono);
     font-size: 12px;
@@ -223,6 +227,8 @@ nav {
     background: rgba(0, 194, 224, 0.08);
 }
 
+/* Section/Divider section */
+
 section {
     max-width: 860px;
     margin: 0 auto;
@@ -253,14 +259,7 @@ section {
     margin: 0 auto;
 }
 
-footer {
-    text-align: center;
-    padding: 2rem;
-    font-family: var(--font-mono);
-    font-size: 11px;
-    color: var(--slate);
-    border-top: 1px solid var(--border);
-}
+/* Experience section */
 
 .exp-item {
     display: grid;
@@ -347,6 +346,8 @@ footer {
     border: 1px solid rgba(0, 194, 224, 0.15);
 }
 
+/* Skills section */
+
 .skills-grid {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
@@ -384,12 +385,14 @@ footer {
     border: 1px solid var(--border);
 }
 
-#p-crc {
+.skill-crc {
     font-family: var(--font-mono);
     font-size: 11px;
     color: var(--slate);
     margin-top: 1rem;
 }
+
+/* Cert section */
 
 .cert-row {
     display: flex;
@@ -471,6 +474,17 @@ footer {
     font-size: 11px;
     color: var(--slate);
     margin-top: .3rem
+}
+
+/* Footer section */
+
+footer {
+    text-align: center;
+    padding: 2rem;
+    font-family: var(--font-mono);
+    font-size: 11px;
+    color: var(--slate);
+    border-top: 1px solid var(--border);
 }
 
 footer a {
