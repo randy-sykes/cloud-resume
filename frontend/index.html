@@ -178,70 +178,69 @@
     <hr class="divider">
 
     <section id="challenge">
-        <div class="">// cloud resume challenge</div>
-        <div class="">CRC Progress</div>
-        <p class="">The <a href="https://cloudresumechallenge.dev" class="">Cloud Resume Challenge</a> by Forrest Brazeal is a hands-on DevOps portfolio project. 
-            Each step builds real AWS infrastructure that powers this page.</p>
-        <div class="">
-            <div class="">
-                <div class="">01</div>
-                <div class="">HTML Resume</div>
-                <div class="">Resume written in HTML — you're looking at it.</div>
-                <span class="">✓ complete</span>
+        <div class="sec-label">// cloud resume challenge</div>
+        <div class="sec-title">CRC Progress</div>
+        <p class="desc-crc">The <a href="https://cloudresumechallenge.dev/docs/the-challenge/aws/" class="cyan" target="_blank">Cloud Resume Challenge</a> by Forrest Brazeal is a hands-on DevOps portfolio project. Each step builds real AWS infrastructure that powers this page.</p>
+        <div class="crc-grid">
+            <div class="crc-step done">
+                <div class="crc-num">01</div>
+                <div class="crc-name">HTML Resume</div>
+                <div class="crc-desc">Resume written in HTML — you're looking at it.</div>
+                <span class="crc-status status-done">✓ complete</span>
             </div>
-            <div class="">
-                <div class="">02</div>
-                <div class="">CSS Styling</div>
-                <div class="">Styled with custom CSS — no frameworks.</div>
-                <span class="">✓ complete</span>
+            <div class="crc-step done">
+                <div class="crc-num">02</div>
+                <div class="crc-name">CSS Styling</div>
+                <div class="crc-desc">Styled with custom CSS — no frameworks.</div>
+                <span class="crc-status status-done">✓ complete</span>
             </div>
-            <div class="">
-                <div class="">03</div>
-                <div class="">S3 + HTTPS</div>
-                <div class="">Static site hosted on S3, served via CloudFront with SSL cert.</div>
-                <span class="">⟳ in progress</span>
+            <div class="crc-step active">
+                <div class="crc-num">03</div>
+                <div class="crc-name">S3 + HTTPS</div>
+                <div class="crc-desc">Static site hosted on S3, served via CloudFront with SSL cert.</div>
+                <span class="crc-status status-active">⟳ in progress</span>
             </div>
-            <div class="">
-                <div class="">04</div>
-                <div class="">Custom DNS</div>
-                <div class="">Point a custom domain at CloudFront via Route 53.</div>
-                <span class="">○ todo</span>
+            <div class="crc-step">
+                <div class="crc-num">04</div>
+                <div class="crc-name">Custom DNS</div>
+                <div class="crc-desc">Point a custom domain at CloudFront via Route 53.</div>
+                <span class="crc-status status-todo">○ todo</span>
             </div>
-            <div class="">
-                <div class="">05</div>
-                <div class="">Visitor Counter</div>
-                <div class="">JavaScript calls a Lambda API that increments a DynamoDB counter.</div>
-                <span class="">○ todo</span>
+            <div class="crc-step">
+                <div class="crc-num">05</div>
+                <div class="crc-name">Visitor Counter</div>
+                <div class="crc-desc">JavaScript calls a Lambda API that increments a DynamoDB counter.</div>
+                <span class="crc-status status-todo">○ todo</span>
             </div>
-            <div class="">
-                <div class="">06</div>
-                <div class="">Lambda + DynamoDB</div>
-                <div class="">Python Lambda function reads/writes visitor count to DynamoDB.</div>
-                <span class="">○ todo</span>
+            <div class="crc-step">
+                <div class="crc-num">06</div>
+                <div class="crc-name">Lambda + DynamoDB</div>
+                <div class="crc-desc">Python Lambda function reads/writes visitor count to DynamoDB.</div>
+                <span class="crc-status status-todo">○ todo</span>
             </div>
-            <div class="">
-                <div class="">07</div>
-                <div class="">API Gateway</div>
-                <div class="">REST API via API Gateway connects frontend to Lambda.</div>
-                <span class="">○ todo</span>
+            <div class="crc-step">
+                <div class="crc-num">07</div>
+                <div class="crc-name">API Gateway</div>
+                <div class="crc-desc">REST API via API Gateway connects frontend to Lambda.</div>
+                <span class="crc-status status-todo">○ todo</span>
             </div>
-            <div class="">
-                <div class="">08</div>
-                <div class="">Terraform IaC</div>
-                <div class="">All AWS resources defined as code — no ClickOps.</div>
-                <span class="">○ todo</span>
+            <div class="crc-step">
+                <div class="crc-num">08</div>
+                <div class="crc-name">Terraform IaC</div>
+                <div class="crc-desc">All AWS resources defined as code — no ClickOps.</div>
+                <span class="crc-status status-todo">○ todo</span>
             </div>
-            <div class="">
-                <div class="">09</div>
-                <div class="">CI/CD Pipeline</div>
-                <div class="">GitHub Actions auto-deploys on every push to main.</div>
-                <span class="">○ todo</span>
+            <div class="crc-step">
+                <div class="crc-num">09</div>
+                <div class="crc-name">CI/CD Pipeline</div>
+                <div class="crc-desc">GitHub Actions auto-deploys on every push to main.</div>
+                <span class="crc-status status-todo">○ todo</span>
             </div>
-            <div class="">
-                <div class="">10</div>
-                <div class="">Blog Post</div>
-                <div class="">Write up lessons learned and publish a walkthrough.</div>
-                <span class="">○ todo</span>
+            <div class="crc-step">
+                <div class="crc-num">10</div>
+                <div class="crc-name">Blog Post</div>
+                <div class="crc-desc">Write up lessons learned and publish a walkthrough.</div>
+                <span class="crc-status status-todo">○ todo</span>
             </div>
         </div>
     </section>
@@ -276,7 +275,7 @@
 
     <footer>
 	    Built with HTML <!-- · Hosted on AWS S3 · Deployed via GitHub Actions · -->
-	<a href="https://cloudresumechallenge.dev">Cloud Resume Challenge</a>
+	<a href="https://cloudresumechallenge.dev/docs/the-challenge/aws/" target="_blank">Cloud Resume Challenge</a>
     </footer>
     <script>
     const phrases = [
