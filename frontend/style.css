@@ -402,6 +402,9 @@ section {
 }
 
 .cert {
+    text-decoration: none;
+    cursor: pointer;
+    transition: border-color .15s ease;
     display: flex;
     align-items: center;
     gap: .6rem;
@@ -409,6 +412,10 @@ section {
     border: 1px solid var(--border);
     border-radius: 8px;
     padding: .7rem 1rem;
+}
+
+.cert:hover {
+    border-color: var(--cyan);
 }
 
 .cert-icon {
