@@ -1,4 +1,13 @@
+# Python ignores
 .venv/
 __pycache__/
 *.pyc
 .pytest_cache/
+
+# Terraform ignores
+*.tfvars
+.terraform/
+
+
+# Artifacts created for this site by Terraform
+lambda_function_payload.zip
