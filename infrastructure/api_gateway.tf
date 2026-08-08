@@ -137,7 +137,7 @@ resource "aws_api_gateway_stage" "site" {
   documentation_version = null
   region                = var.crc_region
   rest_api_id           = aws_api_gateway_rest_api.site.id
-  stage_name            = "resume-visitors"
+  stage_name            = var.api_gateway_stage_name
   tags                  = {}
   tags_all              = {}
   variables             = {}
@@ -148,16 +148,15 @@ resource "aws_api_gateway_deployment" "site" {
   description = null
   region      = var.crc_region
   rest_api_id = aws_api_gateway_rest_api.site.id
-  triggers    = null
-  # triggers = {
-  #   redeployment = sha1(jsonencode([
-  #     aws_api_gateway_resource.count.id,
-  #     aws_api_gateway_method.get.id,
-  #     aws_api_gateway_method.post.id,
-  #     aws_api_gateway_integration.get.id,
-  #     aws_api_gateway_integration.post.id,
-  #   ]))
-  # }
+  triggers = {
+    redeployment = sha1(jsonencode([
+      aws_api_gateway_resource.count.id,
+      aws_api_gateway_method.get.id,
+      aws_api_gateway_method.post.id,
+      aws_api_gateway_integration.get.id,
+      aws_api_gateway_integration.post.id,
+    ]))
+  }
   variables = null
 
   lifecycle {
