@@ -111,7 +111,7 @@ resource "aws_iam_role_policy" "plan_s3_bucket" {
       Statement = [
         {
           Effect   = "Allow"
-          Action   = ["s3:ListBucket", "s3:GetBucketWebsite", "s3:GetBucketCORS", "s3:GetBucketPolicy", "s3:GetBucketVersioning", "s3:GetEncryptionConfiguration", "s3:GetBucketPublicAccessBlock", "s3:GetBucketAcl", "s3:GetAccelerateConfiguration", "s3:GetBucketRequestPayment"]
+          Action   = ["s3:ListBucket", "s3:GetBucketWebsite", "s3:GetBucketCORS", "s3:GetBucketPolicy", "s3:GetBucketVersioning", "s3:GetEncryptionConfiguration", "s3:GetBucketPublicAccessBlock", "s3:GetBucketAcl", "s3:GetAccelerateConfiguration", "s3:GetBucketRequestPayment", "s3:GetBucketLogging"]
           Resource = "arn:aws:s3:::${var.crc_s3_bucket}"
           }, {
           Effect   = "Allow"
@@ -132,7 +132,7 @@ resource "aws_iam_role_policy" "apply_s3_bucket" {
       Statement = [
         {
           Effect   = "Allow"
-          Action   = ["s3:ListBucket", "s3:GetBucketWebsite", "s3:GetBucketCORS", "s3:GetBucketPolicy", "s3:PutBucketPolicy", "s3:PutBucketVersioning", "s3:GetBucketVersioning", "s3:GetEncryptionConfiguration", "s3:GetBucketPublicAccessBlock", "s3:GetBucketAcl", "s3:GetAccelerateConfiguration", "s3:GetBucketRequestPayment"]
+          Action   = ["s3:ListBucket", "s3:GetBucketWebsite", "s3:GetBucketCORS", "s3:GetBucketPolicy", "s3:PutBucketPolicy", "s3:PutBucketVersioning", "s3:GetBucketVersioning", "s3:GetEncryptionConfiguration", "s3:GetBucketPublicAccessBlock", "s3:GetBucketAcl", "s3:GetAccelerateConfiguration", "s3:GetBucketRequestPayment", "s3:GetBucketLogging"]
           Resource = "arn:aws:s3:::${var.crc_s3_bucket}"
           }, {
           Effect   = "Allow"
