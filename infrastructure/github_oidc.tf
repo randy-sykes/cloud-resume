@@ -27,7 +27,7 @@ resource "aws_iam_role" "github_actions_plan" {
         Condition = {
           StringEquals = {
             "token.actions.githubusercontent.com:aud" = "sts.amazonaws.com"
-            "token.actions.githubusercontent.com:sub" = "repo:randy-sykes/cloud-resume:pull_request"
+            "token.actions.githubusercontent.com:sub" = "repo:randy-sykes@12013518/cloud-resume@1323392838:pull_request"
           }
         }
       }
@@ -51,7 +51,7 @@ resource "aws_iam_role" "github_actions_apply" {
         Condition = {
           StringEquals = {
             "token.actions.githubusercontent.com:aud" = "sts.amazonaws.com"
-            "token.actions.githubusercontent.com:sub" = "repo:randy-sykes/cloud-resume:ref:refs/heads/main"
+            "token.actions.githubusercontent.com:sub" = "repo:randy-sykes@12013518/cloud-resume@1323392838:ref:refs/heads/main"
             }
           }
         }
