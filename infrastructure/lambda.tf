@@ -8,7 +8,7 @@ resource "aws_lambda_function" "site" {
   architectures                        = ["x86_64"]
   code_signing_config_arn              = null
   description                          = null
-  source_code_hash                     = data.archive_file.lambda_zip.output_base64sha256
+  source_code_hash                     = filebase64sha256("${path.module}/../backend/lambda/cloud_resume_visitors/lambda_function.py")
   filename                             = data.archive_file.lambda_zip.output_path
   function_name                        = var.lambda_function_name
   handler                              = "lambda_function.lambda_handler"
