@@ -4,7 +4,7 @@ on:
       - main
     paths:
       - 'infrastructure/**'
-      - '.github/workflows/infra-terraform-plan.yml'
+      - '.github/workflows/infra-*'
 
 jobs:
   test_terraform_plan:
