@@ -111,7 +111,7 @@ resource "aws_iam_role_policy" "plan_s3_bucket" {
       Statement = [
         {
           Effect   = "Allow"
-          Action   = ["s3:ListBucket", "s3:GetBucketPolicy", "s3:GetBucketVersioning", "s3:GetEncryptionConfiguration", "s3:GetBucketPublicAccessBlock"]
+          Action   = ["s3:ListBucket", "s3:GetBucketPolicy", "s3:GetBucketVersioning", "s3:GetEncryptionConfiguration", "s3:GetBucketPublicAccessBlock", "s3:GetBucketAcl"]
           Resource = "arn:aws:s3:::${var.crc_s3_bucket}"
           }, {
           Effect   = "Allow"
@@ -132,7 +132,7 @@ resource "aws_iam_role_policy" "apply_s3_bucket" {
       Statement = [
         {
           Effect   = "Allow"
-          Action   = ["s3:ListBucket", "s3:GetBucketPolicy", "s3:PutBucketPolicy", "s3:PutBucketVersioning", "s3:GetBucketVersioning", "s3:GetEncryptionConfiguration", "s3:GetBucketPublicAccessBlock"]
+          Action   = ["s3:ListBucket", "s3:GetBucketPolicy", "s3:PutBucketPolicy", "s3:PutBucketVersioning", "s3:GetBucketVersioning", "s3:GetEncryptionConfiguration", "s3:GetBucketPublicAccessBlock", "s3:GetBucketAcl"]
           Resource = "arn:aws:s3:::${var.crc_s3_bucket}"
           }, {
           Effect   = "Allow"
@@ -256,7 +256,7 @@ resource "aws_iam_role_policy" "plan_lambda" {
     Statement = [
       {
         Effect   = "Allow"
-        Action   = ["lambda:GetFunction", "lambda:GetPolicy", "lambda:ListVersionsByFunction", "lambda:ListTags"]
+        Action   = ["lambda:GetFunction", "lambda:GetPolicy", "lambda:ListVersionsByFunction", "lambda:ListTags", "lambda:GetFunctionCodeSigningConfig"]
         Resource = aws_lambda_function.site.arn
       }
     ]
@@ -271,7 +271,7 @@ resource "aws_iam_role_policy" "apply_lambda" {
     Statement = [
       {
         Effect   = "Allow"
-        Action   = ["lambda:GetFunction", "lambda:GetPolicy", "lambda:ListVersionsByFunction", "lambda:ListTags", "lambda:UpdateFunctionCode", "lambda:UpdateFunctionConfiguration", "lambda:RemovePermission", "lambda:AddPermission"]
+        Action   = ["lambda:GetFunction", "lambda:GetPolicy", "lambda:ListVersionsByFunction", "lambda:ListTags", "lambda:UpdateFunctionCode", "lambda:UpdateFunctionConfiguration", "lambda:RemovePermission", "lambda:AddPermission", "lambda:GetFunctionCodeSigningConfig"]
         Resource = aws_lambda_function.site.arn
       }
     ]
