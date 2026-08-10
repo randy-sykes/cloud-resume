@@ -4,6 +4,7 @@ on:
       - main
     paths:
       - 'infrastructure/**'
+      - 'backend/lambda/**'
       - '.github/workflows/infra-*'
 
 jobs:
