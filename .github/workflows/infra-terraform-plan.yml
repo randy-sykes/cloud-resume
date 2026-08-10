@@ -12,6 +12,7 @@ jobs:
     permissions:
       id-token: write
       contents: read
+      pull-requests: write
     env:
       TF_VAR_cloudflare_api_token: ${{ secrets.TF_VAR_cloudflare_api_token }}
     steps:
