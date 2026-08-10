@@ -73,7 +73,7 @@ resource "aws_iam_role_policy" "plan-state" {
         Resource = "arn:aws:s3:::randy-sykes-terraform-state/cloud-resume/terraform.tfstate"
         }, {
         Effect   = "Allow"
-        Action   = ["s3:PutObject", "s3:DeleteObject"]
+        Action   = ["s3:GetObject", "s3:PutObject", "s3:DeleteObject"]
         Resource = "arn:aws:s3:::randy-sykes-terraform-state/cloud-resume/terraform.tfstate.tflock"
       }
     ]
@@ -93,7 +93,7 @@ resource "aws_iam_role_policy" "apply-state" {
         Resource = "arn:aws:s3:::randy-sykes-terraform-state/cloud-resume/terraform.tfstate"
         }, {
         Effect   = "Allow"
-        Action   = ["s3:PutObject", "s3:DeleteObject"]
+        Action   = ["s3:GetObject", "s3:PutObject", "s3:DeleteObject"]
         Resource = "arn:aws:s3:::randy-sykes-terraform-state/cloud-resume/terraform.tfstate.tflock"
       }
     ]
@@ -111,7 +111,7 @@ resource "aws_iam_role_policy" "plan_s3_bucket" {
       Statement = [
         {
           Effect   = "Allow"
-          Action   = ["s3:GetBucketPolicy", "s3:GetBucketVersioning", "s3:GetEncryptionConfiguration", "s3:GetBucketPublicAccessBlock"]
+          Action   = ["s3:ListBucket", "s3:GetBucketPolicy", "s3:GetBucketVersioning", "s3:GetEncryptionConfiguration", "s3:GetBucketPublicAccessBlock"]
           Resource = "arn:aws:s3:::${var.crc_s3_bucket}"
           }, {
           Effect   = "Allow"
@@ -132,7 +132,7 @@ resource "aws_iam_role_policy" "apply_s3_bucket" {
       Statement = [
         {
           Effect   = "Allow"
-          Action   = ["s3:GetBucketPolicy", "s3:PutBucketPolicy", "s3:PutBucketVersioning", "s3:GetBucketVersioning", "s3:GetEncryptionConfiguration", "s3:GetBucketPublicAccessBlock"]
+          Action   = ["s3:ListBucket", "s3:GetBucketPolicy", "s3:PutBucketPolicy", "s3:PutBucketVersioning", "s3:GetBucketVersioning", "s3:GetEncryptionConfiguration", "s3:GetBucketPublicAccessBlock"]
           Resource = "arn:aws:s3:::${var.crc_s3_bucket}"
           }, {
           Effect   = "Allow"
@@ -288,7 +288,7 @@ resource "aws_iam_role_policy" "plan_api_gateway" {
       {
         Effect   = "Allow"
         Action   = ["apigateway:GET"]
-        Resource = "arn:aws:apigateway:us-east-1::/restapis/${aws_api_gateway_rest_api.site.id}/*"
+        Resource = ["arn:aws:apigateway:us-east-1::/restapis/${aws_api_gateway_rest_api.site.id}", "arn:aws:apigateway:us-east-1::/restapis/${aws_api_gateway_rest_api.site.id}/*"]
       }
     ]
   })
@@ -303,7 +303,7 @@ resource "aws_iam_role_policy" "apply_api_gateway" {
       {
         Effect   = "Allow"
         Action   = ["apigateway:GET"]
-        Resource = "arn:aws:apigateway:us-east-1::/restapis/${aws_api_gateway_rest_api.site.id}/*"
+        Resource = ["arn:aws:apigateway:us-east-1::/restapis/${aws_api_gateway_rest_api.site.id}", "arn:aws:apigateway:us-east-1::/restapis/${aws_api_gateway_rest_api.site.id}/*"]
         }, {
         Effect   = "Allow"
         Action   = ["apigateway:POST"]
@@ -334,7 +334,7 @@ resource "aws_iam_role_policy" "plan_iam_access" {
     Statement = [
       {
         Effect   = "Allow"
-        Action   = ["iam:GetRole", "iam:GetRolePolicy", "iam:ListAttachedRolePolicies"]
+        Action   = ["iam:GetRole", "iam:GetRolePolicy", "iam:ListAttachedRolePolicies", "iam:ListRolePolicies"]
         Resource = [aws_iam_role.site.arn, aws_iam_role.github_actions_plan.arn, aws_iam_role.github_actions_apply.arn]
 
         }, {
@@ -358,7 +358,7 @@ resource "aws_iam_role_policy" "apply_iam_access" {
     Statement = [
       {
         Effect   = "Allow"
-        Action   = ["iam:GetRole", "iam:GetRolePolicy", "iam:ListAttachedRolePolicies"]
+        Action   = ["iam:GetRole", "iam:GetRolePolicy", "iam:ListAttachedRolePolicies", "iam:ListRolePolicies"]
         Resource = [aws_iam_role.site.arn, aws_iam_role.github_actions_plan.arn, aws_iam_role.github_actions_apply.arn]
 
         }, {
