@@ -116,3 +116,31 @@ A few decisions and discoveries worth remembering, since they're not obvious jus
 ### Secrets and variables
 
 The Cloudflare provider needs an API token, scoped narrowly to Zone → DNS → Edit on just this one zone, not account-wide access. Locally it lives in a gitignored `cloudflare.auto.tfvars` (Terraform loads `*.auto.tfvars` automatically, no flag needed, no re-exporting it every new terminal session). In CI it'll come from a GitHub Actions secret injected as `TF_VAR_cloudflare_api_token` instead, same mechanism, different source. Everything else that isn't actually secret (bucket name, domain, table/function/API names) just got real `default` values in `variables.tf`, since they're constants for this project and there's no reason CI should need to supply them separately.
+
+## CI/CD
+
+Two GitHub Actions workflows drive Terraform: `infra-terraform-plan.yml` runs on every PR touching `infrastructure/**` or the workflow files themselves, `infra-terraform-apply.yml` runs on push to `main` (i.e. after a PR merges).
+
+**OIDC, not long-lived keys**
+Both workflows authenticate to AWS through a GitHub OIDC provider (`aws_iam_openid_connect_provider.github_actions` in `github_oidc.tf`) instead of storing an AWS access key/secret in GitHub Secrets. GitHub mints a short-lived signed token per run; AWS validates it against the OIDC provider and a trust policy condition on the token's `sub` claim. No static credentials sitting in GitHub to leak or rotate.
+
+**Two roles, split by privilege**
+- `github-actions-plan`: read-only actions across every service (S3, CloudFront, ACM, DynamoDB, Lambda, API Gateway, IAM), enough to run `terraform plan` and comment the diff on the PR, never enough to change anything.
+- `github-actions-apply`: everything `plan` has, plus the specific write/update actions each resource needs (`s3:PutObject`, `lambda:UpdateFunctionCode`, `iam:PutRolePolicy`, etc.), scoped to this project's resource ARNs, not `*`.
+
+**The trust policy `sub` claim, and a gotcha**
+GitHub rolled out immutable subject claims in 2026: the `sub` claim now embeds the owner's and repo's permanent numeric IDs (`repo:OWNER@OWNER_ID/REPO@REPO_ID:...`) instead of just the mutable name, so a renamed/recycled repo or org can't mint a token that still matches an old trust policy. Both roles' conditions use this format.
+
+The part that isn't obvious: the segment *after* the owner/repo also depends on how the token was requested, and the two forms don't combine. `plan` runs on `pull_request` with no `environment:` set, so its claim ends in `:pull_request`. `apply` runs on push to `main`, but the job also sets `environment: production` for approval-gating, and setting `environment:` replaces the ref-based ending entirely: the claim becomes `...:environment:production`, never `...:environment:production:ref:refs/heads/main`. Got bitten by assuming both endings could appear together, cost a broken `apply` role until the trust policy was corrected to match.
+
+**Approval gate before apply**
+`apply`'s `environment: production` isn't only about the `sub` claim shape, the `production` environment in GitHub also has a required-reviewer protection rule, so even after a PR merges to `main`, the actual `terraform apply` run pauses until manually approved in the Actions UI. PR review covers the diff being merged; this is a separate checkpoint on the specific run that's about to touch real AWS resources.
+
+### Local setup
+
+**Git hooks**
+Hooks live in the tracked `.githooks/` directory rather than the untracked `.git/hooks/`, currently just a `pre-commit` hook blocking commits made directly on `main` (branch protection would reject the push anyway; this just catches it earlier, locally). `core.hooksPath` is a local git config value, not something `git clone` picks up automatically, so it needs to be set once per clone:
+
+```bash
+git config core.hooksPath .githooks
+```
