@@ -115,7 +115,7 @@ resource "aws_iam_role_policy" "plan_s3_bucket" {
           Resource = "arn:aws:s3:::${var.crc_s3_bucket}"
           }, {
           Effect   = "Allow"
-          Action   = ["s3:GetObject"]
+          Action   = ["s3:GetObject", "s3:GetObjectTagging"]
           Resource = "arn:aws:s3:::${var.crc_s3_bucket}/*"
         }
       ]
@@ -136,7 +136,7 @@ resource "aws_iam_role_policy" "apply_s3_bucket" {
           Resource = "arn:aws:s3:::${var.crc_s3_bucket}"
           }, {
           Effect   = "Allow"
-          Action   = ["s3:GetObject", "s3:PutObject"]
+          Action   = ["s3:GetObject", "s3:PutObject", "s3:GetObjectTagging"]
           Resource = "arn:aws:s3:::${var.crc_s3_bucket}/*"
         }
       ]
