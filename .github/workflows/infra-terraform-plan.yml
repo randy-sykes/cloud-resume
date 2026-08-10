@@ -45,7 +45,7 @@ jobs:
       - name: Terraform plan
         id: plan
         working-directory: infrastructure
-        run: terraform plan -no-color|
+        run: terraform plan -no-color
 
       - name: Comment plan on PR
         uses: actions/github-script@v7
