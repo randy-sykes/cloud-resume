@@ -19,15 +19,15 @@ resource "aws_iam_role" "github_actions_plan" {
     Version = "2012-10-17"
     Statement = [
       {
-        Effect    = "Allow"
+        Effect = "Allow"
         Principal = {
           Federated = aws_iam_openid_connect_provider.github_actions.arn
         }
-        Action    = "sts:AssumeRoleWithWebIdentity"
+        Action = "sts:AssumeRoleWithWebIdentity"
         Condition = {
           StringEquals = {
             "token.actions.githubusercontent.com:aud" = "sts.amazonaws.com"
-            "token.actions.githubusercontent.com:sub" = "repo:randy-sykes/cloud-resume:pull_request"
+            "token.actions.githubusercontent.com:sub" = "repo:randy-sykes@12013518/cloud-resume@1323392838:pull_request"
           }
         }
       }
@@ -40,18 +40,18 @@ resource "aws_iam_role" "github_actions_apply" {
 
   assume_role_policy = jsonencode(
     {
-    Version = "2012-10-17"
-    Statement = [
-      {
-        Effect    = "Allow"
-        Principal = {
-          Federated = aws_iam_openid_connect_provider.github_actions.arn
+      Version = "2012-10-17"
+      Statement = [
+        {
+          Effect = "Allow"
+          Principal = {
+            Federated = aws_iam_openid_connect_provider.github_actions.arn
           }
-        Action    = "sts:AssumeRoleWithWebIdentity"
-        Condition = {
-          StringEquals = {
-            "token.actions.githubusercontent.com:aud" = "sts.amazonaws.com"
-            "token.actions.githubusercontent.com:sub" = "repo:randy-sykes/cloud-resume:ref:refs/heads/main"
+          Action = "sts:AssumeRoleWithWebIdentity"
+          Condition = {
+            StringEquals = {
+              "token.actions.githubusercontent.com:aud" = "sts.amazonaws.com"
+              "token.actions.githubusercontent.com:sub" = "repo:randy-sykes@12013518/cloud-resume@1323392838:ref:refs/heads/main"
             }
           }
         }
@@ -62,86 +62,86 @@ resource "aws_iam_role" "github_actions_apply" {
 
 # State permissions
 resource "aws_iam_role_policy" "plan-state" {
-    name = "plan-state-access"
-    role = aws_iam_role.github_actions_plan.name
-    policy = jsonencode({
-      Version = "2012-10-17"
-      Statement = [
-        {
-          Effect    = "Allow"
-          Action    = ["s3:GetObject"]
-          Resource = "arn:aws:s3:::randy-sykes-terraform-state/cloud-resume/terraform.tfstate"
+  name = "plan-state-access"
+  role = aws_iam_role.github_actions_plan.name
+  policy = jsonencode({
+    Version = "2012-10-17"
+    Statement = [
+      {
+        Effect   = "Allow"
+        Action   = ["s3:GetObject"]
+        Resource = "arn:aws:s3:::randy-sykes-terraform-state/cloud-resume/terraform.tfstate"
         }, {
-          Effect    = "Allow"
-          Action    = ["s3:PutObject", "s3:DeleteObject"]
-          Resource = "arn:aws:s3:::randy-sykes-terraform-state/cloud-resume/terraform.tfstate.tflock"
-        }
-      ]
+        Effect   = "Allow"
+        Action   = ["s3:GetObject", "s3:PutObject", "s3:DeleteObject"]
+        Resource = "arn:aws:s3:::randy-sykes-terraform-state/cloud-resume/terraform.tfstate.tflock"
+      }
+    ]
     }
-  ) 
+  )
 }
 
 resource "aws_iam_role_policy" "apply-state" {
-    name = "apply-state-access"
-    role = aws_iam_role.github_actions_apply.name
-    policy = jsonencode({
-      Version = "2012-10-17"
-      Statement = [
-        {
-          Effect    = "Allow"
-          Action    = ["s3:GetObject", "s3:PutObject"]
-          Resource = "arn:aws:s3:::randy-sykes-terraform-state/cloud-resume/terraform.tfstate"
+  name = "apply-state-access"
+  role = aws_iam_role.github_actions_apply.name
+  policy = jsonencode({
+    Version = "2012-10-17"
+    Statement = [
+      {
+        Effect   = "Allow"
+        Action   = ["s3:GetObject", "s3:PutObject"]
+        Resource = "arn:aws:s3:::randy-sykes-terraform-state/cloud-resume/terraform.tfstate"
         }, {
-          Effect    = "Allow"
-          Action    = ["s3:PutObject", "s3:DeleteObject"]
-          Resource = "arn:aws:s3:::randy-sykes-terraform-state/cloud-resume/terraform.tfstate.tflock"
-        }
-      ]
+        Effect   = "Allow"
+        Action   = ["s3:GetObject", "s3:PutObject", "s3:DeleteObject"]
+        Resource = "arn:aws:s3:::randy-sykes-terraform-state/cloud-resume/terraform.tfstate.tflock"
+      }
+    ]
     }
-  ) 
+  )
 }
 
 # S3 permissions
 resource "aws_iam_role_policy" "plan_s3_bucket" {
-    name = "plan-s3-bucket-access"
-    role = aws_iam_role.github_actions_plan.name
-    policy = jsonencode(
-      {
+  name = "plan-s3-bucket-access"
+  role = aws_iam_role.github_actions_plan.name
+  policy = jsonencode(
+    {
       Version = "2012-10-17"
       Statement = [
         {
-          Effect    = "Allow"
-          Action    = ["s3:GetBucketPolicy", "s3:GetBucketVersioning", "s3:GetEncryptionConfiguration", "s3:GetBucketPublicAccessBlock"]
+          Effect   = "Allow"
+          Action   = ["s3:ListBucket", "s3:GetBucketWebsite", "s3:GetBucketCORS", "s3:GetBucketPolicy", "s3:GetBucketVersioning", "s3:GetEncryptionConfiguration", "s3:GetBucketPublicAccessBlock", "s3:GetBucketAcl", "s3:GetAccelerateConfiguration", "s3:GetBucketRequestPayment", "s3:GetBucketLogging", "s3:GetLifecycleConfiguration", "s3:GetReplicationConfiguration", "s3:GetBucketObjectLockConfiguration", "s3:GetBucketTagging"]
           Resource = "arn:aws:s3:::${var.crc_s3_bucket}"
-        }, {
-          Effect    = "Allow"
-          Action    = ["s3:GetObject"]
+          }, {
+          Effect   = "Allow"
+          Action   = ["s3:GetObject", "s3:GetObjectTagging"]
           Resource = "arn:aws:s3:::${var.crc_s3_bucket}/*"
         }
       ]
     }
-  ) 
+  )
 }
 
 resource "aws_iam_role_policy" "apply_s3_bucket" {
-    name = "apply-s3-bucket-access"
-    role = aws_iam_role.github_actions_apply.name
-    policy = jsonencode(
-      {
+  name = "apply-s3-bucket-access"
+  role = aws_iam_role.github_actions_apply.name
+  policy = jsonencode(
+    {
       Version = "2012-10-17"
       Statement = [
         {
-          Effect    = "Allow"
-          Action    = ["s3:GetBucketPolicy", "s3:PutBucketPolicy", "s3:PutBucketVersioning", "s3:GetBucketVersioning", "s3:GetEncryptionConfiguration", "s3:GetBucketPublicAccessBlock"]
+          Effect   = "Allow"
+          Action   = ["s3:ListBucket", "s3:GetBucketWebsite", "s3:GetBucketCORS", "s3:GetBucketPolicy", "s3:PutBucketPolicy", "s3:PutBucketVersioning", "s3:GetBucketVersioning", "s3:GetEncryptionConfiguration", "s3:GetBucketPublicAccessBlock", "s3:GetBucketAcl", "s3:GetAccelerateConfiguration", "s3:GetBucketRequestPayment", "s3:GetBucketLogging", "s3:GetLifecycleConfiguration", "s3:GetReplicationConfiguration", "s3:GetBucketObjectLockConfiguration", "s3:GetBucketTagging"]
           Resource = "arn:aws:s3:::${var.crc_s3_bucket}"
-        }, {
-          Effect    = "Allow"
-          Action    = ["s3:GetObject", "s3:PutObject"]
+          }, {
+          Effect   = "Allow"
+          Action   = ["s3:GetObject", "s3:PutObject", "s3:GetObjectTagging"]
           Resource = "arn:aws:s3:::${var.crc_s3_bucket}/*"
         }
       ]
     }
-  ) 
+  )
 }
 
 # Cloudfront permissions
@@ -152,12 +152,12 @@ resource "aws_iam_role_policy" "plan_cloudfront" {
     Version = "2012-10-17"
     Statement = [
       {
-        Effect = "Allow"
-        Action = ["cloudfront:GetOriginAccessControl"]
+        Effect   = "Allow"
+        Action   = ["cloudfront:GetOriginAccessControl"]
         Resource = "arn:aws:cloudfront::${data.aws_caller_identity.current.account_id}:origin-access-control/${aws_cloudfront_origin_access_control.site.id}"
-      },{
-        Effect = "Allow"
-        Action = ["cloudfront:GetDistribution", "cloudfront:ListTagsForResource"]
+        }, {
+        Effect   = "Allow"
+        Action   = ["cloudfront:GetDistribution", "cloudfront:ListTagsForResource"]
         Resource = aws_cloudfront_distribution.site.arn
       },
     ]
@@ -171,12 +171,12 @@ resource "aws_iam_role_policy" "apply_cloudfront" {
     Version = "2012-10-17"
     Statement = [
       {
-        Effect = "Allow"
-        Action = ["cloudfront:GetOriginAccessControl", "cloudfront:UpdateOriginAccessControl"]
+        Effect   = "Allow"
+        Action   = ["cloudfront:GetOriginAccessControl", "cloudfront:UpdateOriginAccessControl"]
         Resource = "arn:aws:cloudfront::${data.aws_caller_identity.current.account_id}:origin-access-control/${aws_cloudfront_origin_access_control.site.id}"
-      },{
-        Effect = "Allow"
-        Action = ["cloudfront:GetDistribution", "cloudfront:UpdateDistribution", "cloudfront:ListTagsForResource"]
+        }, {
+        Effect   = "Allow"
+        Action   = ["cloudfront:GetDistribution", "cloudfront:UpdateDistribution", "cloudfront:ListTagsForResource"]
         Resource = aws_cloudfront_distribution.site.arn
       },
     ]
@@ -191,8 +191,8 @@ resource "aws_iam_role_policy" "plan_acm" {
     Version = "2012-10-17"
     Statement = [
       {
-        Effect = "Allow"
-        Action = ["acm:DescribeCertificate", "acm:ListTagsForCertificate"]
+        Effect   = "Allow"
+        Action   = ["acm:DescribeCertificate", "acm:ListTagsForCertificate"]
         Resource = aws_acm_certificate.site.arn
       }
     ]
@@ -206,8 +206,8 @@ resource "aws_iam_role_policy" "apply_acm" {
     Version = "2012-10-17"
     Statement = [
       {
-        Effect = "Allow"
-        Action = ["acm:DescribeCertificate", "acm:ListTagsForCertificate", "acm:RequestCertificate", "acm:DeleteCertificate"]
+        Effect   = "Allow"
+        Action   = ["acm:DescribeCertificate", "acm:ListTagsForCertificate", "acm:RequestCertificate", "acm:DeleteCertificate"]
         Resource = "arn:aws:acm:us-east-1:${data.aws_caller_identity.current.account_id}:certificate/*"
       }
     ]
@@ -222,8 +222,8 @@ resource "aws_iam_role_policy" "plan_dynamodb" {
     Version = "2012-10-17"
     Statement = [
       {
-        Effect = "Allow"
-        Action = ["dynamodb:DescribeTable", "dynamodb:DescribeContinuousBackups", "dynamodb:DescribeTimeToLive", "dynamodb:ListTagsOfResource"]
+        Effect   = "Allow"
+        Action   = ["dynamodb:DescribeTable", "dynamodb:DescribeContinuousBackups", "dynamodb:DescribeTimeToLive", "dynamodb:ListTagsOfResource"]
         Resource = aws_dynamodb_table.site.arn
       }
     ]
@@ -240,7 +240,7 @@ resource "aws_iam_role_policy" "apply_dynamodb" {
         Effect = "Allow"
         # Left out the CreateTable/DeleteTable since this table already has deletion_protection_enabled and prevent_destroy.
         # A full rebuild should go through manual/local apply instead of CI.
-        Action = ["dynamodb:DescribeTable", "dynamodb:DescribeContinuousBackups", "dynamodb:DescribeTimeToLive", "dynamodb:ListTagsOfResource", "dynamodb:UpdateTable", "dynamodb:UpdateContinuousBackups", "dynamodb:UpdateTimeToLive", "dynamodb:TagResource", "dynamodb:UntagResource"]
+        Action   = ["dynamodb:DescribeTable", "dynamodb:DescribeContinuousBackups", "dynamodb:DescribeTimeToLive", "dynamodb:ListTagsOfResource", "dynamodb:UpdateTable", "dynamodb:UpdateContinuousBackups", "dynamodb:UpdateTimeToLive", "dynamodb:TagResource", "dynamodb:UntagResource"]
         Resource = aws_dynamodb_table.site.arn
       }
     ]
@@ -255,8 +255,8 @@ resource "aws_iam_role_policy" "plan_lambda" {
     Version = "2012-10-17"
     Statement = [
       {
-        Effect = "Allow"
-        Action = ["lambda:GetFunction", "lambda:GetPolicy", "lambda:ListVersionsByFunction", "lambda:ListTags"]
+        Effect   = "Allow"
+        Action   = ["lambda:GetFunction", "lambda:GetPolicy", "lambda:ListVersionsByFunction", "lambda:ListTags", "lambda:GetFunctionCodeSigningConfig"]
         Resource = aws_lambda_function.site.arn
       }
     ]
@@ -270,8 +270,8 @@ resource "aws_iam_role_policy" "apply_lambda" {
     Version = "2012-10-17"
     Statement = [
       {
-        Effect = "Allow"
-        Action = ["lambda:GetFunction", "lambda:GetPolicy", "lambda:ListVersionsByFunction", "lambda:ListTags", "lambda:UpdateFunctionCode", "lambda:UpdateFunctionConfiguration", "lambda:RemovePermission", "lambda:AddPermission"]
+        Effect   = "Allow"
+        Action   = ["lambda:GetFunction", "lambda:GetPolicy", "lambda:ListVersionsByFunction", "lambda:ListTags", "lambda:UpdateFunctionCode", "lambda:UpdateFunctionConfiguration", "lambda:RemovePermission", "lambda:AddPermission", "lambda:GetFunctionCodeSigningConfig"]
         Resource = aws_lambda_function.site.arn
       }
     ]
@@ -286,9 +286,9 @@ resource "aws_iam_role_policy" "plan_api_gateway" {
     Version = "2012-10-17"
     Statement = [
       {
-        Effect = "Allow"
-        Action = ["apigateway:GET"]
-        Resource = "arn:aws:apigateway:us-east-1::/restapis/${aws_api_gateway_rest_api.site.id}/*"
+        Effect   = "Allow"
+        Action   = ["apigateway:GET"]
+        Resource = ["arn:aws:apigateway:us-east-1::/restapis/${aws_api_gateway_rest_api.site.id}", "arn:aws:apigateway:us-east-1::/restapis/${aws_api_gateway_rest_api.site.id}/*"]
       }
     ]
   })
@@ -301,24 +301,24 @@ resource "aws_iam_role_policy" "apply_api_gateway" {
     Version = "2012-10-17"
     Statement = [
       {
-        Effect = "Allow"
-        Action = ["apigateway:GET"]
+        Effect   = "Allow"
+        Action   = ["apigateway:GET"]
+        Resource = ["arn:aws:apigateway:us-east-1::/restapis/${aws_api_gateway_rest_api.site.id}", "arn:aws:apigateway:us-east-1::/restapis/${aws_api_gateway_rest_api.site.id}/*"]
+        }, {
+        Effect   = "Allow"
+        Action   = ["apigateway:POST"]
         Resource = "arn:aws:apigateway:us-east-1::/restapis/${aws_api_gateway_rest_api.site.id}/*"
-      },{
-        Effect = "Allow"
-        Action = ["apigateway:POST"]
+        }, {
+        Effect   = "Allow"
+        Action   = ["apigateway:PATCH"]
         Resource = "arn:aws:apigateway:us-east-1::/restapis/${aws_api_gateway_rest_api.site.id}/*"
-      },{
-        Effect = "Allow"
-        Action = ["apigateway:PATCH"]
+        }, {
+        Effect   = "Allow"
+        Action   = ["apigateway:PUT"]
         Resource = "arn:aws:apigateway:us-east-1::/restapis/${aws_api_gateway_rest_api.site.id}/*"
-      },{
-        Effect = "Allow"
-        Action = ["apigateway:PUT"]
-        Resource = "arn:aws:apigateway:us-east-1::/restapis/${aws_api_gateway_rest_api.site.id}/*"
-      },{
-        Effect = "Allow"
-        Action = ["apigateway:DELETE"]
+        }, {
+        Effect   = "Allow"
+        Action   = ["apigateway:DELETE"]
         Resource = "arn:aws:apigateway:us-east-1::/restapis/${aws_api_gateway_rest_api.site.id}/*"
       }
     ]
@@ -333,17 +333,17 @@ resource "aws_iam_role_policy" "plan_iam_access" {
     Version = "2012-10-17"
     Statement = [
       {
-        Effect = "Allow"
-        Action = ["iam:GetRole", "iam:GetRolePolicy", "iam:ListAttachedRolePolicies"]
+        Effect   = "Allow"
+        Action   = ["iam:GetRole", "iam:GetRolePolicy", "iam:ListAttachedRolePolicies", "iam:ListRolePolicies"]
         Resource = [aws_iam_role.site.arn, aws_iam_role.github_actions_plan.arn, aws_iam_role.github_actions_apply.arn]
 
-      }, {
-        Effect = "Allow"
-        Action = ["iam:ListOpenIDConnectProviders"]
+        }, {
+        Effect   = "Allow"
+        Action   = ["iam:ListOpenIDConnectProviders"]
         Resource = "*"
-      }, {
-        Effect = "Allow"
-        Action = ["iam:GetOpenIDConnectProvider"]
+        }, {
+        Effect   = "Allow"
+        Action   = ["iam:GetOpenIDConnectProvider"]
         Resource = aws_iam_openid_connect_provider.github_actions.arn
       }
     ]
@@ -357,25 +357,25 @@ resource "aws_iam_role_policy" "apply_iam_access" {
     Version = "2012-10-17"
     Statement = [
       {
-        Effect = "Allow"
-        Action = ["iam:GetRole", "iam:GetRolePolicy", "iam:ListAttachedRolePolicies"]
+        Effect   = "Allow"
+        Action   = ["iam:GetRole", "iam:GetRolePolicy", "iam:ListAttachedRolePolicies", "iam:ListRolePolicies"]
         Resource = [aws_iam_role.site.arn, aws_iam_role.github_actions_plan.arn, aws_iam_role.github_actions_apply.arn]
 
-      }, {
-        Effect = "Allow"
-        Action = ["iam:ListOpenIDConnectProviders"]
+        }, {
+        Effect   = "Allow"
+        Action   = ["iam:ListOpenIDConnectProviders"]
         Resource = "*"
-      }, {
-        Effect = "Allow"
-        Action = ["iam:GetOpenIDConnectProvider"]
+        }, {
+        Effect   = "Allow"
+        Action   = ["iam:GetOpenIDConnectProvider"]
         Resource = aws_iam_openid_connect_provider.github_actions.arn
-      }, {
-        Effect = "Allow"
-        Action = ["iam:PutRolePolicy", "iam:DeleteRolePolicy", "iam:AttachRolePolicy", "iam:DetachRolePolicy"]
+        }, {
+        Effect   = "Allow"
+        Action   = ["iam:PutRolePolicy", "iam:DeleteRolePolicy", "iam:AttachRolePolicy", "iam:DetachRolePolicy"]
         Resource = aws_iam_role.site.arn
-      }, {
-        Effect = "Allow"
-        Action = ["iam:UpdateRole", "iam:UpdateAssumeRolePolicy", "iam:TagRole", "iam:UntagRole"]
+        }, {
+        Effect   = "Allow"
+        Action   = ["iam:UpdateRole", "iam:UpdateAssumeRolePolicy", "iam:TagRole", "iam:UntagRole"]
         Resource = aws_iam_role.site.arn
       }
     ]
