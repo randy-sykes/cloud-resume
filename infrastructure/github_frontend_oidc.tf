@@ -53,7 +53,7 @@ resource "aws_iam_role_policy" "frontend_deploy_cloudfront_access" {
           Effect   = "Allow"
           Action   = ["cloudfront:CreateInvalidation", "cloudfront:GetInvalidation"]
           Resource = aws_cloudfront_distribution.site.arn
-        }, {
+          }, {
           Effect   = "Allow"
           Action   = ["cloudfront:ListDistributions"]
           Resource = "*"
