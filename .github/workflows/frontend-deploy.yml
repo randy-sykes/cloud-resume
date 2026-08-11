@@ -25,7 +25,7 @@ jobs:
 
       - name: Sync S3 bucket
         working-directory: frontend
-        run: aws s3 sync ./ s3://randy-sykes.me --delete
+        run: aws s3 sync ./ s3://randy-sykes.me --delete --exclude "api_url.txt"
 
       - name: Get CloudFront Distribution ID
         id: distribution-id
