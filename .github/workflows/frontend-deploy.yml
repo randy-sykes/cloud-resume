@@ -1,0 +1,43 @@
+on: 
+  push:
+    branches:
+      - main
+    paths:
+      - 'frontend/**'
+      - '.github/workflows/frontend-*'
+
+jobs:
+  deploy_frontend:
+    runs-on: ubuntu-latest
+    permissions:
+      id-token: write
+      contents: read
+    environment: production
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Configure AWS credentials
+        uses: aws-actions/configure-aws-credentials@v4
+        with:
+          role-to-assume: arn:aws:iam::${{ vars.AWS_ACCOUNT_ID }}:role/github-actions-frontend-deploy
+          aws-region: ${{ vars.AWS_REGION }}
+
+      - name: Sync S3 bucket
+        working-directory: frontend
+        run: aws s3 sync ./ s3://randy-sykes.me --delete
+
+      - name: Get CloudFront Distribution ID
+        id: distribution-id
+        run: |
+          distribution_id=$(aws cloudfront list-distributions --query "DistributionList.Items[?contains(Aliases.Items, 'randy-sykes.me')].Id" --output text)
+          echo "distribution_id=$distribution_id" >> "$GITHUB_OUTPUT"
+
+      - name: Invalidate CloudFront
+        id: invalidation-id
+        run: |
+          invalidation_id=$(aws cloudfront create-invalidation --paths "/*" --distribution-id ${{ steps.distribution-id.outputs.distribution_id }} --query 'Invalidation.Id' --output text)
+          echo "invalidation_id=$invalidation_id" >> "$GITHUB_OUTPUT"
+        
+      - name: Wait for Invalidation
+        run: aws cloudfront wait invalidation-completed --distribution-id ${{ steps.distribution-id.outputs.distribution_id }} --id ${{ steps.invalidation-id.outputs.invalidation_id }}
