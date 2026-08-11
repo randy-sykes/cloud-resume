@@ -2,13 +2,28 @@ on:
   pull_request:
     branches:
       - main
-    paths:
-      - 'infrastructure/**'
-      - 'backend/lambda/**'
-      - '.github/workflows/infra-*'
 
 jobs:
+  changes:
+    runs-on: ubuntu-latest
+    permissions:
+      pull-requests: read
+    outputs:
+      infra: ${{ steps.filter.outputs.infra }}
+    steps:
+      - name: Check updated files
+        uses: dorny/paths-filter@v4
+        id: filter
+        with:
+          filters: |
+            infra:
+              - 'backend/**'
+              - 'infrastructure/**'
+              - '.github/workflows/infra-*'
+
   test_terraform_plan:
+    needs: changes
+    if: needs.changes.outputs.infra == 'true'
     runs-on: ubuntu-latest
     permissions:
       id-token: write
