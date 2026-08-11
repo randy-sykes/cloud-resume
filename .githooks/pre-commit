@@ -1,7 +1,19 @@
 #!/bin/sh
+# Check so that I cannot commit to main
 branch=$(git symbolic-ref --short HEAD)
 
 if [ "$branch" = "main" ]; then
   echo "Error: direct commits to 'main' are not allowed. Create a feature branch instead." >&2
   exit 1
+fi
+
+# Check that any terraform files are format checked before commit
+staged_tf_files=$(git diff --cached --name-only --diff-filter=ACM -- '*.tf')
+
+if [ -n "$staged_tf_files" ]; then
+  if ! terraform -chdir=infrastructure fmt -check -diff; then
+    echo "Error: Terraform files are not formatted. Run 'terraform fmt' in infrastructure/, then re-stage
+ and commit again." >&2
+    exit 1
+  fi
 fi
