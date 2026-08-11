@@ -335,7 +335,7 @@ resource "aws_iam_role_policy" "plan_iam_access" {
       {
         Effect   = "Allow"
         Action   = ["iam:GetRole", "iam:GetRolePolicy", "iam:ListAttachedRolePolicies", "iam:ListRolePolicies"]
-        Resource = [aws_iam_role.site.arn, aws_iam_role.github_actions_plan.arn, aws_iam_role.github_actions_apply.arn]
+        Resource = [aws_iam_role.site.arn, aws_iam_role.github_actions_plan.arn, aws_iam_role.github_actions_apply.arn, aws_iam_role.github_actions_frontend_deploy.arn]
 
         }, {
         Effect   = "Allow"
